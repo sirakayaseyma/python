@@ -15,9 +15,16 @@ yukselisteMi = True
 # yeniVade = vade / 2
 # print(yeniVade)
 
-sayi1 = 10
+sayi1 = 15
 sayi2 = 15
-
-if sayi1 < sayi2:
+#else olduğunda herhangi bir açıklama yapmıyorum.
+if sayi1 <= sayi2:
     print("sayi1 sayi2 den büyüktür")
-print("burası if bloğunun dışı")     
+elif sayi1 == sayi2:
+    print("iki sayi eşittir.")
+else: 
+    print("sayi1 sayi2den küçüktür")
+print("burası if bloğunun dışı")   
+
+# if bloklarında sadece bir blok okunur karar çıkmıştır diğer bloklara gerek kalmaz
+# her yeni if yapısı kontrole baslatır yani alt alta koyduğum if bloklarının hepsi çalısır.
