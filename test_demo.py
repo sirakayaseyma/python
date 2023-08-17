@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.action_chains import ActionChains
+import pytest
 
 class Test_DemoClass:
     #her testten önce çağırılır.
@@ -25,14 +26,16 @@ class Test_DemoClass:
     def test_demo2(self):
         assert True
     
-    def test_invalid_login(self):
+    # @pytest.mark.skip() # çalıştırma bu kısmı atla demek istiyor bundan sonra gelen kısmı
+    @pytest.mark.parametrize("username,password" , [("1", "1"), ("kllaniciadim" , "şifrem")]) #liste içindekit üm verilerimi çalıştırdı.
+    def test_invalid_login(self,username,password):
         WebDriverWait(self.driver,5).until(ec.visibility_of_element_located((By.ID, "user-name")))
         usernameInput = self.driver.find_element(By.ID, "user-name")
         WebDriverWait(self.driver,5).until(ec.visibility_of_element_located((By.ID, "password")))
         passwordInput = self.driver.find_element(By.ID, "password")
         #en fazla 5 saniye olacak şekilde user-name id'li elementin görünmesini bekle
-        usernameInput.send_keys("1")
-        passwordInput.send_keys("1")
+        usernameInput.send_keys(username)
+        passwordInput.send_keys(password)
         loginBtn = self.driver.find_element(By.ID,"login-button")
         loginBtn.click()
         errorMessage = self.driver.find_element(By.XPATH, "//*[@id='login_button_container']/div/form/div[3]/h3")
