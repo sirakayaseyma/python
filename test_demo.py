@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import pytest
 from pathlib import Path
 from datetime import date
+import openpyxl
 
 class Test_DemoClass:
     #her testten önce çağırılır.
@@ -30,9 +31,25 @@ class Test_DemoClass:
         assert text == "Hello"
     def test_demo2(self):
         assert True
+
+    def getData():
+        #veriyi al
+        excelFile = openpyxl.load_workbook("data/invalid_login.xlsx")
+        selectedSheet = excelFile["Sayfa1"]
+
+        totalRows = selectedSheet.max_row
+        data = []
+        for i in range(2, totalRows+1):
+            username = selectedSheet.cell(i,1).value
+            password = selectedSheet.cell(i,2).value
+            tupleData = (username,password)
+            data.append(tupleData)
+        return data
+
+        #return [("1", "1"), ("kullaniciadim" , "şifrem"), ("kodlamaio"  , "123")]
     
     # @pytest.mark.skip() # çalıştırma bu kısmı atla demek istiyor bundan sonra gelen kısmı
-    @pytest.mark.parametrize("username,password" , [("1", "1"), ("kullaniciadim" , "şifrem")]) #liste içindekit üm verilerimi çalıştırdı.
+    @pytest.mark.parametrize("username,password" , getData()) #liste içindekit üm verilerimi çalıştırdı.
     def test_invalid_login(self,username,password):
         self.waitForElementVisible((By.ID, "user-name"))
         usernameInput = self.driver.find_element(By.ID, "user-name")
