@@ -8,13 +8,14 @@ import pytest
 from pathlib import Path
 from datetime import date
 import openpyxl
+import globalConstants 
 
 class Test_DemoClass:
     #her testten önce çağırılır.
     def setup_method(self): #genel kruluna ihtiyaç duyulabilmesine yardımcı olur.
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
-        self.driver.get("https://www.saucedemo.com/")
+        self.driver.get(globalConstants.URL)
         self.folderPath = str(date.today())
         Path(self.folderPath).mkdir(exist_ok=True)
         #günün tarihini al bu tarih ile klasör var mı kontrol et yoksa oluştur.
@@ -62,6 +63,8 @@ class Test_DemoClass:
         loginBtn.click()
         errorMessage = self.driver.find_element(By.XPATH, "//*[@id='login_button_container']/div/form/div[3]/h3")
         self.driver.save_screenshot(f"{self.folderPath}/test-invalid-login-{username}-{password}.png")
+        #magic string olabidiğince az kullanmamız gerekiyor. yani text yazmak hata yapmama sebep olabilir.
+        #buradaki text yapısını farklı dosyada değişkneler tutarak yapabilirim.
         assert errorMessage.text == "Epic sadface: Username and password do not match any user in this service"
     def waitForElementVisible(self,locator,timeout=5):
         WebDriverWait(self.driver,timeout).until(ec.visibility_of_element_located(locator))
