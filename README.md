@@ -1,3 +1,3 @@
 # python
 
-Kodlama.io selenium eğitimi kodları 
+Kodlama.io selenyum eğitimi kodları 
